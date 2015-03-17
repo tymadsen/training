@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/~tymadsen/CodeIgniter/index.php';
-$config['site_url'] = 'http://localhost/~tymadsen/CodeIgniter';
+$config['base_url']	= 'http://tymadsen.tk';
+$config['site_url'] = 'http://tymadsen.tk';
 
 /*
 |--------------------------------------------------------------------------
