@@ -14,8 +14,8 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://tymadsen.tk';
-$config['site_url'] = 'http://tymadsen.tk';
+$config['base_url']	= 'http://tymadsen.tk/training/index.php';
+$config['site_url'] = 'http://tymadsen.tk/training';
 
 /*
 |--------------------------------------------------------------------------
