@@ -1,0 +1,65 @@
+<html>
+<head>
+<style>
+#main{
+	background-color: #66C2C2;
+	position:absolute;
+	width:400px;
+	height:200px;
+}
+.form{
+	background-color: #009999;
+	position:absolute;
+	width:400px;
+	height:150px;
+	top:50px;
+}
+label{
+	position: relative;
+	left:20px;
+	top:5px;
+	width:50px;
+	height:10px;
+}
+.input{
+	position:relative;
+	left:25px;
+	top:5px;
+}
+.submit{
+	position:relative;
+	left:150px;
+	top:5px;
+}
+#sign_up{
+	text-decoration: none;
+	text-align: center;
+	background-color: #005C5C;
+	float:right;
+	width: 110px;
+	margin-right:10px;
+	margin-top:5px;
+	border: 1px solid black;
+	border-radius: 8px;
+}
+
+</style>
+
+</script>
+</head>
+
+<body>
+	<div id="main">
+		<div class="form" id="sign_in_form">
+			<form action="login.php" method="post">
+				<a href="NewUser.html" type="button" id="sign_up"><span class="btn_txt">Not a user yet?</span>
+				</a>
+				<label for="user_name">Username:</label><input type="text" class="input" id="user_name" name="user_name"><br>
+				<label for="password">Password:</label><input type="password" class="input" id="password" name="password"><br>
+				<input type="submit" class="submit" id="submit">
+				
+			</form>
+		</div>
+	</div>
+</body>
+</html>

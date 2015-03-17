@@ -1,0 +1,17 @@
+<link rel="stylesheet" type="text.css" href="<?php echo $site_url; ?>/css/robot.css">
+<div id="cont">
+	<div id="head">
+		<div class="eye" id="left_eye"></div>
+		<div class="eye" id="right_eye"></div>
+		<div id="mouth"></div>
+	</div>
+	<div id="neck"></div>
+	<div id="bulk_body">
+		<div class="arm" id="left_arm"></div>
+		<div class="arm" id="right_arm"></div>
+	</div>
+	<div id="leg_container">
+		<div class="leg" id="right_leg"></div>
+		<div class="leg" id="left_leg"></div>
+	</div>
+</div>

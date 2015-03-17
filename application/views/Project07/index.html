@@ -1,0 +1,337 @@
+
+<style>
+body{
+	background-color: black;
+	overflow:hidden;
+}
+
+#main{
+	overflow: hidden;
+	height:100%;
+	width:100%;
+}
+#background{
+	background: url('<?php echo $site_url; ?>/images/landscape.jpg') no-repeat;
+	background-color: rgba(0,200,240,.5);
+	background-size:100% 100%;
+	position:absolute;
+	top:0px;left:0px;right:0px;bottom:0px;
+	z-index:100;
+}
+#midground{
+	/*background: url('traincars.gif') no-repeat;*/
+	background-size: auto 132%;
+	position:absolute;
+	top:64%;left:0px;right:0px;bottom:0px;
+	z-index:200;
+}
+#tint{
+	background-color: rgba(0,230,240,0.12);	
+	position: absolute;
+	z-index:200;
+	width: 100%;
+	height: 100%;
+}
+#train_img{
+	position: absolute;
+}
+#runner_img{
+	position: absolute;
+	height:100%;
+}
+#thrower_img{
+	position: absolute;
+	height: 100%;
+}
+#runner{
+	/*background: url('runner_sprite.png') no-repeat;
+	background-size: auto 100%;
+	background-color: blue;*/
+	overflow: hidden;
+	width: 27%;
+	height: 40%;
+	position:absolute;
+	top:25%;left:20px;
+	z-index:300;
+}
+#thrower{
+	/*background: url('thrower_sprite.png') no-repeat;
+	background-size: auto 100%;
+	background-color: red;*/
+	overflow: hidden;
+	width: 27%;
+	height: 40%;
+	position:absolute;
+	top:25%;bottom:0px;right:0%;
+	z-index:300;
+}
+.health{
+	height:100%;
+	width:100%;
+}
+.user_health{
+	background: linear-gradient(to bottom, rgba(65,174,198,0.85) 5%,rgba(21,59,107,0.87) 15%,rgba(65,150,160,0.92) 50%,rgba(160,240,240,0.96) 75%,rgba(255,255,255,0.99) 90%,rgba(255,255,255,0.99) 93%,rgba(75,185,244,1) 100%);
+}
+.enemy_health{
+	background: linear-gradient(to bottom, rgba(249,147,4,0.85) 5%,rgba(196,52,0,0.87) 15%,rgba(242,136,7,0.92) 35%,rgba(237,229,4,0.96) 76%,rgba(255,255,255,0.99) 91%,rgba(255,255,255,0.99) 93%,rgba(237,202,7,1) 100%);
+}
+.health_bar{
+	position:absolute;
+	overflow: hidden;
+	border: 2px solid rgba(255,255,255,.75);
+	border-radius:10px;
+	height:2%;
+	width:10%;
+	top:3%;
+}
+#enemy_health_bar{
+	right:3%;
+}
+#user_health_bar{
+	left:3%;
+}
+
+</style>
+<!--
+<script src="coordinates.js"></script>
+-->
+<script>
+function init(){
+	$('body').width($(window).width()).height($(window).height());
+	$('#runner').css({width:$('#runner').height()*(.07)+'%'});
+	$('#thrower').css({width:$('#thrower').height()*(.07)+'%'});
+	$('.health_bar').append($('<div class="health"></div>'));
+	$('#enemy_health_bar .health').addClass('enemy_health');
+	$('#user_health_bar .health').addClass('user_health');
+/*
+*
+*
+*
+*
+*
+*
+*
+***************workpoint******************************************
+*
+*
+*
+*$('#runner_img').animate({'left':'-'+$('#runner').width()+'px'},0);
+*
+*
+*
+*
+*/
+	//$('#tint').width(window.innerWidth).height(window.innerHeight/2);	
+	setTimeout(function(){
+		shift($('#thrower_img'));
+		shift($('#thrower_img'));
+	},0);
+	
+	setInterval(function(){
+		shift($('#runner_img'));
+		shift($('#thrower_img'));
+	},120);
+
+
+}
+function shift(obj){
+	var left = obj[0].offsetLeft-Math.round(obj.width()/9)+'px';
+	obj.animate({left:left},0);
+	if(Math.floor(obj[0].offsetLeft) <= -(obj.width()-Math.round(obj.width()/9)))
+		obj.animate({left:'0px'},0);
+	return obj;
+}
+var moving_train,prob_count = 25,disc_speed = 3000,train_speed = 5000;
+function start_train(){
+	moveTrain();
+	moving_train = setInterval(moveTrain,train_speed);
+}
+function stop_train(){
+	clearInterval(moving_train);
+}
+function moveTrain(){
+	var train_length = $('#train_img').width();
+	//$('#midground').css('left','0px');
+	$('#train_img').animate({
+		left:-(train_length/2)+'px'
+	},train_speed,'linear',function(){
+
+		$('#train_img').css({left:'0px'});
+	});
+}
+var solutionArray = new Array();
+var discArray = new Array();
+var userDiscs = new Array();
+function enemyFire(){
+	var operator = '+';
+	var firstNum = Math.floor((Math.random()*5)+1);
+	var secondNum = Math.floor((Math.random()*4)+1);
+	var seqOperationSelector = Math.floor(Math.random()*2);//add or subtract 0=add, 1=subtract
+	var solution;
+	if(seqOperationSelector == 1){
+		if(firstNum<secondNum){
+			var tempNum = firstNum;
+			firstNum = secondNum;
+			secondNum = tempNum;
+		}
+		solution = firstNum-secondNum;
+		operator = '-';
+	}
+	else
+		solution = firstNum+secondNum;
+	var problem = firstNum+"\n"+operator+""+secondNum;
+
+	solutionArray.push(solution);
+	disc = new Disc(solution,problem);
+	discArray.push(disc);
+	var start = Math.floor(window.innerWidth*.915);
+	var middle = Math.floor(window.innerWidth*.5);
+	var end = Math.floor($('#runner').width()/2);//window.innerWidth*.13);
+	var yStart = window.innerHeight*.33;
+	var yMiddle = yStart/2;
+	disc.animate({
+	crSpline: $.crSpline.buildSequence([[start, yStart], [middle, yMiddle], [end, yStart]])
+	},disc_speed,'linear',function(){
+		destroyDisc(Number(this.id),false);
+		if(!hit("user"))
+			enemyFire();
+	});
+}
+function evaluateInput(){
+	var input = parseInt(String.fromCharCode(event.keyCode));
+	if(solutionArray.indexOf(input) != -1){
+		makeDisc();
+		destroyDisc(input,true);
+	}
+}
+function gameOver(loser){
+	var game_status = '';
+	if(loser == "user")
+		game_status = 'Game Over!';
+	else if(loser = "enemy")
+		game_status = 'You Won!';
+	var play = confirm(game_status+'\nDo you want to play again?');
+	if(play){
+		location.reload();
+	}else{
+		history.back();
+	}
+}
+function hit(person){
+	
+	var player = $('#'+person+'_health_bar');
+	var health = player.find('.health');
+	var new_width = Math.round(health.width()-player.width()/prob_count);
+	health.animate({width:new_width+'px'},500);
+	if(new_width < player.width()/3.5)
+		player.css({borderColor:'rgba(255,120,120,.5)'});
+	if(new_width <= 0)
+	{
+		setTimeout(function(){gameOver(person)},600);
+		return true;
+	}
+	else
+		return false;
+}
+
+function destroyDisc(num,block){
+	var disc = $('#'+num).stop()[0];
+	//var distanceX = disc.offsetLeft-(window.innerWidth*.0975);
+	//var time = .7;//Seconds
+	//var timeout = (distanceX)/(200+(distanceX/time));
+	/*var distX = distanceX-(200*timeout);
+	var distY = timeout<=3.25 ? disc.offsetTop-((window.innerHeight*.16)/3.25)*timeout : disc.offsetTop+((window.innerHeight*.16)/3.25)*timeout;*/
+	if(block)
+		throwDisc(window.innerWidth*.85+'px',window.innerHeight*.3+'px',disc_speed/3);
+	$('body')[0].removeChild($('#'+num)[0]);
+
+	var index= solutionArray.indexOf(num);
+	
+	solutionArray.splice(index,1);
+	discArray.splice(index,1);
+	//enemyFire();
+}
+function Disc(solution,problem){
+	var discDiameter = Math.floor(window.innerHeight*.08);
+	var disc = $('<div id="'+solution+'"></div>').css({
+		"background-image": "url('<?php echo $site_url; ?>/images/yellow_disc.gif')",
+		"background-repeat": "no-repeat",
+		"background-size": "auto 100%",
+		"width": discDiameter+"px",
+		"height": discDiameter+"px",
+		"position":"absolute",
+		"top":"33%",
+		"left":"91.5%",
+		"z-index":"500",
+		"color":"white",
+		"text-align":"center",
+		"font-family":"'Comic Sans MS', cursive, sans-serif",
+		"font-weight":"bold",
+		"font-size":discDiameter/2+"px"
+	}).text(problem);//.hide();
+	$('body').append(disc);
+	
+	return disc;
+
+}
+function makeDisc(){
+	var disc = $('<div id="user_disc"></div>').css({
+		"background-image": "url('<?php echo $site_url; ?>/images/blue_disc.gif')",
+		"background-repeat": "no-repeat",
+		"background-size": "auto 100%",
+		"width": "8%",
+		"height": "8%",
+		"position":"absolute",
+		"z-index":"200",
+		"top":"33%",
+		"left":"15.5%"
+	});//.hide();
+	userDiscs.push(disc);
+	$('body').append(disc);
+
+	//$('#test').hide();
+	//throwDisc();
+}
+function throwDisc(x,y,timeout){
+	//alert(String.fromCharCode(event.keyCode));
+	var user_disc = userDiscs.pop();
+	user_disc.show().animate({
+		left:x,
+		top:y
+	},timeout,'linear',function(){
+		//user_disc.hide().css({'left':'8.5%','top':'33%'});
+		$('body')[0].removeChild(user_disc[0]);
+		if(!hit("enemy"))
+			enemyFire();
+	});
+}
+$(document).ready(function(){
+	init();
+	// makeDisc();
+	// var thrower = $('#thrower');
+	// thrower.css('left',window.innerWidth-thrower.height()+'px');
+	document.addEventListener('keypress',evaluateInput);
+	
+	enemyFire();
+	
+});
+</script>
+
+
+<div id="main">
+	<div id="background">
+		<div id="enemy_health_bar" class="health_bar"></div>
+		<div id="user_health_bar" class="health_bar"></div>
+	</div>
+	<div id="midground">
+		<div id="tint"></div>
+		<img id="train_img" src="<?php echo $site_url ?>/images/traincars.gif" alt="traincars.gif" onload="start_train()">
+	</div>
+	<div id="runner">
+		<img id="runner_img" src="<?php echo $site_url ?>/images/runner_sprite.png" alt="runner.png">
+	</div>
+	<div id="thrower">
+		<img id="thrower_img" src="<?php echo $site_url ?>/images/thrower_sprite.png" alt="thrower.png">
+	</div>
+	<p id="coords"></p>
+</div>

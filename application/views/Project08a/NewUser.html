@@ -1,0 +1,55 @@
+<html>
+<head>
+<style>
+#main{
+	background-color: #66C2C2;
+	position:absolute;
+	width:400px;
+	height:200px;
+}
+.form{
+	background-color: #009999;
+	position:absolute;
+	width:400px;
+	height:150px;
+	top:50px;
+}
+a{
+	position: relative;
+	left:20px;
+	top:5px;
+	width:50px;
+	height:10px;
+}
+label{
+	position: relative;
+	top:5px;
+}
+.input{
+	position:relative;
+	left:25px;
+	top:5px;
+}
+.submit{
+	position:relative;
+	left:150px;
+	top:5px;
+}
+</style>
+
+</head>
+
+<body>
+	<div id="main">
+		<div class="form" id="new_user_form">
+			<form action="new_user.php" method="post">
+				<label for="first_name">First Name:</label><input type="text" class="input" id="first_name" name="first_name"><br>
+				<label for="last_name">Last Name:</label><input type="text" class="input" id="last_name" name="last_name"><br>
+				<label for="b_day">Birthday:</label><input type="date" class="input" id="b_day" name="b_day"><br>
+				<label for="new_user_name">Username:</label><input type="text" class="input" id="new_user_name" name="new_user_name"><br>
+				<label for="new_password">Password:</label><input type="password" class="input" id="new_password" name="new_password"><br>
+				<input type="submit" class="submit" id="new_submit">
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,104 @@
+.text{
+	float:left;
+	margin-top: 10px;
+	margin-left: 20px;
+	height: 100px;
+	width:250px;
+}
+.label_div{
+	float:left;
+	margin-top: 10px;
+	margin-left: 10px;
+	height: 100px;
+	width:150px;
+}
+.label{
+	position: relative;
+	left: 20px;
+	width: 100px;
+}
+#top{
+	height:50px;
+}
+#question_time{
+	float:right;
+	padding-right:20px;
+	padding-top: 20px
+}
+
+#question_id{
+	float:left;
+	position: relative;
+	top: 20px;
+	left: 20px;
+}
+.frame{
+	position: relative;
+	left: 210px;
+	top:15px;
+	background-color: white;
+	border: 2px solid black;
+	border-radius: 10px;
+	width: 500px;
+	height: 350px;
+}
+#quiz_frame{
+	overflow: scroll;
+	width: 517px;
+	height: 367px;
+}
+#outer_frame{
+	overflow:hidden;
+	left:150px;
+	
+}
+#question_frame{
+	display: none;
+}
+#take_quiz_btn{
+	float: right;
+	right: 60px;
+	bottom: 180px;
+	height: 50px;
+	width:100px;
+}
+#problem{
+	position: relative;
+	top: 25px;
+	left: 30px;
+	height:275px;
+	width:450px;
+}
+#time_limit{
+	position: relative;
+	top: 15px;
+	left: 630px;
+	width: 270px;
+}
+#quiz_info{
+	position: relative;
+	top: 25px;
+	left: 630px;
+	width:270px;
+}
+#quiz_time{
+	position: relative;
+	display: none;
+	top: -20px;
+	left: 110px;
+	width: 100px;
+}
+#quiz_id{
+	position: absolute;
+	top: 20px;
+	left: 400px;
+	font-size: 30px;
+}
+#submit_btn{
+	float:left;
+	position: relative;
+	top:20px;
+	left:180px;
+	width:60px;
+	height:25px;
+}
